@@ -2,6 +2,7 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+var webpack = require('webpack');
 
 var extractPlugin = new ExtractTextPlugin({
     filename: 'style.css'
@@ -11,7 +12,7 @@ module.exports = {
     entry: './src/script/app.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js',        
+        filename: '[name].bundle.js',
     },
     module: {
         rules: [
@@ -55,6 +56,9 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'src/index.html'
         }),
-        new CleanWebpackPlugin(['dist'])
+        new CleanWebpackPlugin(['dist']),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'common'
+        })
     ]
 };
